@@ -7,7 +7,6 @@ import time
 import pandas as pd
 import os
 from dotenv import load_dotenv
-from fpdf import FPDF
 
 load_dotenv()
 
@@ -142,16 +141,13 @@ def process_pdf(file_bytes):
 
 
 def images_to_pdf_bytes(images):
-    pdf = FPDF(unit="pt", format=[images[0].width, images[0].height])
-    for img in images:
-        pdf.add_page()
-
-        img_bytes = io.BytesIO()
-        img.save(img_bytes, format="JPEG")
-        img_bytes.seek(0)
-        pdf.image(img_bytes, 0, 0, img.width, img.height)
     pdf_bytes = io.BytesIO()
-    pdf.output(pdf_bytes)
+    # Pastikan semua image dalam mode RGB
+    rgb_images = [img.convert("RGB") for img in images]
+    # Simpan semua halaman images ke 1 PDF
+    rgb_images[0].save(
+        pdf_bytes, format="PDF", save_all=True, append_images=rgb_images[1:]
+    )
     pdf_bytes.seek(0)
     return pdf_bytes
 
@@ -193,6 +189,7 @@ if uploaded_file:
                 st.markdown("#### Translated Text")
                 st.markdown(page["translated_text"].replace("\n", "  \n"))
 
+            # Download 1 file PDF gabungan semua halaman hasil translate (jika file input PDF)
             if file_type == "PDF" and len(pages) > 0:
                 translated_images = [p["translated_image"] for p in pages]
                 pdf_bytes = images_to_pdf_bytes(translated_images)
