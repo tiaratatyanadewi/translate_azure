@@ -31,3 +31,6 @@ Proyek ini bertujuan melakukan eksplorasi dan evaluasi berbagai tools untuk pene
 - `translated_deepL.txt` — hasil terjemahan menggunakan DeepL.
 - `perbandingan_evaluasi_dengan_keterangan.png` — visualisasi perbandingan hasil evaluasi
 - `glossary.csv` - custom glossary yang dipanggil pada document translation
+
+## Eksplorasi Document Translation using Azure Power Automate
+![image](https://github.com/user-attachments/assets/aa07d7b0-e126-4b7e-b62f-9f25c57b1ab8)
